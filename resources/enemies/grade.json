@@ -1,0 +1,23 @@
+{
+  "name": "grade",
+  "skillSlots": 1,
+  "health": 30,
+  "attacks": [
+    {
+      "name": "",
+      "basePower": 2,
+      "coinCount": 1,
+      "coinPower": 3,
+      "charge" : {
+        "change": 1,
+        "chargeCost": 0,
+        "clashWin": false
+      },
+      "sanity" : {
+        "change" : 7,
+        "chargeCost": 3,
+        "clashWin": true
+      }
+    }
+  ]
+}

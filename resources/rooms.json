@@ -1,0 +1,10 @@
+[
+  {
+    "name": "",
+    "dialogueFileBefore": "temp",
+    "dialogueFileAfter": "temp",
+    "enemyFiles": [
+      "/enemies/grade.json"
+    ]
+  }
+]
