@@ -1,0 +1,33 @@
+{
+ "locations": [
+   {
+      "id": 1,
+      "name": "Tutorial///First",
+      "dialogueFileBefore": "",
+      "dialogueFileAfter": "",
+      "enemies": []
+   },
+   {
+     "id": 2,
+     "name": "Tutorial///Second",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": []
+   },
+   {
+     "id": 3,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": ["enemy_grade","enemy_grade","enemy_grade"]
+   }
+  ],
+  "enemies": [
+    {
+      "id": "enemy_grade",
+      "name": "a_grade",
+      "health": 30,
+      "skills": ["","",""]
+    }
+  ]
+}
