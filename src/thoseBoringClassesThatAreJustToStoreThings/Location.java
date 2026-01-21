@@ -1,3 +1,5 @@
+package thoseBoringClassesThatAreJustToStoreThings;
+
 import java.util.ArrayList;
 
 public class Location {
@@ -30,9 +32,8 @@ public class Location {
     }
 
 
-    //TODO maybe finish this?
     @Override
     public String toString() {
-        return "";
+        return "a Location";
     }
 }

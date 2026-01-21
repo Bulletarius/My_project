@@ -1,18 +1,26 @@
+package game;
+
 import com.google.gson.Gson;
+import com.sun.tools.javac.Main;
+import thoseBoringClassesThatAreJustToStoreThings.Enemy;
+import thoseBoringClassesThatAreJustToStoreThings.Location;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameData {
-    public ArrayList<Location> locations;
+    private ArrayList<Location> locations;
+    private ArrayList<Enemy> enemies;
+    private HashMap<String, Enemy> enemiesMap;
 
 
 
     /**
      * Loads game data from a JSON file.
      * @param resourcePath path to the resource file
-     * @return a GameData object filled with the loaded data
+     * @return a game.GameData object filled with the loaded data
      */
     public static GameData loadGameDataFromResources(String resourcePath) {
         //Vytvoření objektu pro práci s JSON souborem
@@ -23,11 +31,11 @@ public class GameData {
 
             //Zde ověřujeme, zdali soubor existuje
             if (is == null) {
-                throw new IllegalStateException("Nenalezen resource: " + resourcePath +
+                System.out.println("Nenalezen resource: " + resourcePath +
                         " (zkontrolujte, že soubor je v src/main/resources).");
             }
 
-            //Přečte celý JSON a vytvoří instanci GameData, naplní vlastnosti podle názvů klíčů v JSONU, vrátí se hotová třída GameData
+            //Přečte celý JSON a vytvoří instanci game.GameData, naplní vlastnosti podle názvů klíčů v JSONU, vrátí se hotová třída game.GameData
             return gson.fromJson(
                     new InputStreamReader(is, StandardCharsets.UTF_8),
                     GameData.class
@@ -39,7 +47,10 @@ public class GameData {
 
     }
 
-    public ArrayList<Location> getLocations() {
-        return locations;
+    public void toMap(){
+        for (int i = 0; i < enemies.size()-1; i++) {
+            enemiesMap.put(enemies.get(i).getId(),enemies.get(i));
+        }
     }
+
 }

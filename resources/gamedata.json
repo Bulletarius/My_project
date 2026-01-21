@@ -19,15 +19,33 @@
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": ["enemy_grade","enemy_grade","enemy_grade"]
+     "enemies": ["e_grade","e_grade","e_grade"]
    }
   ],
   "enemies": [
     {
-      "id": "enemy_grade",
-      "name": "a_grade",
+      "id": "e_grade",
+      "name": "a grade",
       "health": 30,
-      "skills": ["","",""]
+      "description": "",
+      "skills": ["a_"]
+    }
+  ],
+  "skills": [
+    {
+      "id": "a_",
+      "name": "",
+      "description": "",
+      "cost": 0,
+      "basePower": "3",
+      "coinPower": "2",
+      "coinCount": "2",
+      "chargeGained": 1,
+      "chargeCost": 0,
+      "chargeClash": false,
+      "sanity": 5,
+      "sanityCost": 3,
+      "sanityClash": true
     }
   ]
 }
