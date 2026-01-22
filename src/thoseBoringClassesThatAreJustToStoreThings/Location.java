@@ -3,6 +3,7 @@ package thoseBoringClassesThatAreJustToStoreThings;
 import java.util.ArrayList;
 
 public class Location {
+    private int id;
     private String name;
     private String dialogueFileBefore;
     private String dialogueFileAfter;
@@ -31,6 +32,8 @@ public class Location {
         this.dialogueFileAfter = dialogueFileAfter;
     }
 
+    public int getId(){return id;}
+    public void setId(int id){this.id = id;}
 
     @Override
     public String toString() {

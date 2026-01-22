@@ -26,6 +26,6 @@ public class Enemy {
 
     @Override
     public String toString() {
-        return "Enemy:" + description + ", skills=" + skills;
+        return name + ":" + description + ", skills=" + skills;
     }
 }

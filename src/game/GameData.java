@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.sun.tools.javac.Main;
 import thoseBoringClassesThatAreJustToStoreThings.Enemy;
 import thoseBoringClassesThatAreJustToStoreThings.Location;
+
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,17 +30,11 @@ public class GameData {
         Gson gson = new Gson();
 
         //Načtení souboru gamedata.json, musí být ve složce res/resources, ta musí být označena jako resource složka projektu
-        try (InputStream is = Main.class.getResourceAsStream(resourcePath)) {
-
-            //Zde ověřujeme, zdali soubor existuje
-            if (is == null) {
-                System.out.println("Nenalezen resource: " + resourcePath +
-                        " (zkontrolujte, že soubor je v src/main/resources).");
-            }
+        try (Reader reader = new FileReader(resourcePath)) {
 
             //Přečte celý JSON a vytvoří instanci game.GameData, naplní vlastnosti podle názvů klíčů v JSONU, vrátí se hotová třída game.GameData
             return gson.fromJson(
-                    new InputStreamReader(is, StandardCharsets.UTF_8),
+                    reader,
                     GameData.class
             );
 
@@ -47,9 +44,13 @@ public class GameData {
 
     }
 
+    /**
+     * Converts internal arraylists to Hash maps
+     */
     public void toMap(){
-        for (int i = 0; i < enemies.size()-1; i++) {
-            enemiesMap.put(enemies.get(i).getId(),enemies.get(i));
+        enemiesMap = new HashMap<>();
+        for (Enemy enemy : enemies) {
+            enemiesMap.put(enemy.getId(), enemy);
         }
     }
 
