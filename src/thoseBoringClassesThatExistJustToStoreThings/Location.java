@@ -8,6 +8,7 @@ public class Location {
     private String dialogueFileBefore;
     private String dialogueFileAfter;
     private ArrayList<String> enemies;
+    private ArrayList<String> loot;
 
     public Location(){}
 
@@ -35,8 +36,7 @@ public class Location {
     public int getId(){return id;}
     public void setId(int id){this.id = id;}
 
-    @Override
-    public String toString() {
-        return "a Location";
-    }
+    public ArrayList<String> getEnemies(){return enemies;}
+
+    public ArrayList<String> getLoot(){return loot;}
 }

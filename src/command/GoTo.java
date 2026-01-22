@@ -1,0 +1,34 @@
+package command;
+
+import game.CurrentData;
+import game.GameData;
+import game.State;
+import thoseBoringClassesThatExistJustToStoreThings.Location;
+
+public class GoTo implements Command{
+    CurrentData cData;
+    GameData data;
+
+    public GoTo(CurrentData currentData, GameData data){
+        cData = currentData;
+        this.data = data;
+    }
+
+    //TODO finish this JavaDoc
+    /**
+     *
+     * @param argument the second part of the command used as an argument
+     * @param state current state of the game
+     */
+    @Override
+    public void execute(String argument, State state) {
+        if (state == State.IDLE){
+            Location requestedLocation = data.getLocation(argument);
+            if(requestedLocation != null){
+                if(requestedLocation.getId() <= cData.getUnlockedLocation()){
+                    cData.setCurrentLocation(requestedLocation.getId());
+                }else System.out.println("You have not reached that location yet");
+            }else System.out.println("That location does not exist");
+        }else System.out.println("You can not do that right now");
+    }
+}

@@ -1,9 +1,8 @@
-import game.GameData;
+import game.Game;
 
 public class Main {
     public static void main(String[] args) {
-        GameData data = GameData.loadGameDataFromResources("resources/gamedata.json");
-        data.toMap();
-
+        Game game = new Game();
+        game.run();
     }
 }

@@ -12,7 +12,8 @@
      "name": "Tutorial///Second",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": []
+     "enemies": [],
+     "loot": []
    },
    {
      "id": 3,
@@ -26,32 +27,37 @@
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": []
+     "enemies": [],
+     "loot": []
    },{
      "id": 5,
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": [""]
+     "enemies": [],
+     "loot": []
    },
    {
      "id": 6,
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": []
+     "enemies": [],
+     "loot": []
    },{
      "id": 7,
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": []
+     "enemies": [],
+     "loot": []
    },{
      "id": 8,
      "name": "",
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
-     "enemies": ["e_grade","e_grade","e_grade"]
+     "enemies": [],
+     "loot": []
    }
   ],
   "enemies": [

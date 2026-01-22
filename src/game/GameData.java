@@ -42,7 +42,7 @@ public class GameData {
     }
 
     /**
-     * Converts internal array Lists to Hash maps
+     * Converts internal array Lists to Hash maps,
      * needs to be called to properly initialize
      */
     public void toMap(){
@@ -74,7 +74,7 @@ public class GameData {
      */
     public Location getLocation(String name){
         for(Location location : locations){
-            if(location.getName().equals(name)){
+            if(location.getName().toLowerCase().equals(name)){
                 return location;
             }
         }
