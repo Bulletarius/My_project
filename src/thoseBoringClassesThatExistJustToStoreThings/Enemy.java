@@ -1,4 +1,4 @@
-package thoseBoringClassesThatAreJustToStoreThings;
+package thoseBoringClassesThatExistJustToStoreThings;
 
 import java.util.ArrayList;
 

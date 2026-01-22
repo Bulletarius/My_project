@@ -20,6 +20,38 @@
      "dialogueFileBefore": "",
      "dialogueFileAfter": "",
      "enemies": ["e_grade","e_grade","e_grade"]
+   },
+   {
+     "id": 4,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": []
+   },{
+     "id": 5,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": [""]
+   },
+   {
+     "id": 6,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": []
+   },{
+     "id": 7,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": []
+   },{
+     "id": 8,
+     "name": "",
+     "dialogueFileBefore": "",
+     "dialogueFileAfter": "",
+     "enemies": ["e_grade","e_grade","e_grade"]
    }
   ],
   "enemies": [
@@ -37,13 +69,13 @@
       "name": "",
       "description": "",
       "cost": 0,
-      "basePower": "3",
-      "coinPower": "2",
-      "coinCount": "2",
+      "basePower": 3,
+      "coinPower": 2,
+      "coinCount": 2,
       "chargeGained": 1,
       "chargeCost": 0,
       "chargeClash": false,
-      "sanity": 5,
+      "sanityDamage": 5,
       "sanityCost": 3,
       "sanityClash": true
     }
