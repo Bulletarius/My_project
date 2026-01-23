@@ -5,7 +5,8 @@
       "name": "Tutorial///First",
       "dialogueFileBefore": "",
       "dialogueFileAfter": "",
-      "enemies": []
+      "enemies": ["e_dummy","e_dummy"],
+      "loot": []
    },
    {
      "id": 2,
@@ -65,13 +66,22 @@
       "id": "e_grade",
       "name": "a grade",
       "health": 30,
+      "skillSlots": 1,
       "description": "",
-      "skills": ["a_"]
+      "skills": ["s_e_"]
+    },
+    {
+      "id": "e_dummy",
+      "name": "Basic tutorial dummy",
+      "health": 20,
+      "skillSlots": 1,
+      "description": "",
+      "skills": ["s_e_basic"]
     }
   ],
   "skills": [
     {
-      "id": "a_",
+      "id": "s_e_",
       "name": "",
       "description": "",
       "cost": 0,
@@ -83,6 +93,21 @@
       "chargeClash": false,
       "sanityDamage": 5,
       "sanityCost": 3,
+      "sanityClash": true
+    },
+    {
+      "id": "s_e_basic",
+      "name": "Basic tutorial attack",
+      "description": "Just a basic attack with one coin, nothing special",
+      "cost": 0,
+      "basePower": 3,
+      "coinPower": 2,
+      "coinCount": 1,
+      "chargeGained": 0,
+      "chargeCost": 0,
+      "chargeClash": false,
+      "sanityDamage": 0,
+      "sanityCost": 0,
       "sanityClash": true
     }
   ]

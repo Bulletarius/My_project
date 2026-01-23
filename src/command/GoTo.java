@@ -4,11 +4,11 @@ import game.CurrentData;
 import game.GameData;
 import game.State;
 import thoseBoringClassesThatExistJustToStoreThings.Location;
-
+//TODO write JavaDoc
 public class GoTo implements Command{
     CurrentData cData;
     GameData data;
-
+    //TODO write JavaDoc
     public GoTo(CurrentData currentData, GameData data){
         cData = currentData;
         this.data = data;

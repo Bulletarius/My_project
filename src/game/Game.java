@@ -1,9 +1,6 @@
 package game;
 
-import command.Command;
-import command.GoTo;
-import command.Help;
-import command.Stop;
+import command.*;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -22,6 +19,7 @@ public class Game {
         commands.put("go", new GoTo(cData, data));
         commands.put("stop", new Stop());
         commands.put("help", new Help(commands));
+        commands.put("description", new Description(data));
         state = State.IDLE;
     }
     //TODO write JavaDoc
@@ -32,8 +30,10 @@ public class Game {
             String command = scanner.nextLine();
             String[] split =command.toLowerCase().trim().split(" ", 2);
             Command executable =commands.get(split[0]);
-            if(split.length == 1){
-                executable.execute(null, state);
+            if (executable == null) {
+               System.out.println("Invalid command, try using 'help'");
+            }else if(split.length == 1){
+                    executable.execute(null, state);
             }else executable.execute(split[1], state);
         }
     }

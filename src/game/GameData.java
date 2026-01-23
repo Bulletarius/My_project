@@ -70,7 +70,7 @@ public class GameData {
      * returns the location based on a name,
      * is overloaded with an id based function
      * @param name the name that gets searched for
-     * @return the location with the name
+     * @return the location with the name, null if it can not be found
      */
     public Location getLocation(String name){
         for(Location location : locations){
@@ -82,47 +82,42 @@ public class GameData {
     }
 
     /**
-     * returns an enemy object based on the id
-     * @param id the id to get
-     * @return the enemy with the matching id
+     * returns an enemy object based on the id or name as it searches both
+     * but prioritizes id
+     * @param id the id or name to get corresponding enemy
+     * @return the enemy with the matching id or name, null if it can not be found
      */
     public Enemy getEnemy(String id){
-        return enemiesMap.get(id);
+        if (enemiesMap.containsKey(id)){
+            return enemiesMap.get(id);
+        }else{
+            for(Enemy enemy : enemies){
+                if(enemy.getName().toLowerCase().equals(id)){
+                    return enemy;
+                }
+            }
+            return null;
+        }
+
     }
 
     /**
-     * returns an enemy object based on name
-     * @param name the name to get
-     * @return the enemy with the matching name
-     */
-    public Enemy getEnemyName(String name){
-        for(Enemy enemy : enemies){
-            if(enemy.getName().toLowerCase().equals(name)){
-                return enemy;
-            }
-        }
-        return null;
-    }
-    /**
-     * returns a skill object based on the id
-     * @param id the id to get
-     * @return the skill with the matching id
+     * returns a skill object based on the id or name as it searches both
+     * but prioritizes id
+     * @param id the id or name to get corresponding skill
+     * @return the skill with the matching id or name, null if it can not be found
      */
     public Skill getSkill(String id){
-        return skillsMap.get(id);
+        if (skillsMap.containsKey(id)){
+            return skillsMap.get(id);
+        }else {
+            for(Skill skill : skills){
+                if(skill.getName().toLowerCase().equals(id)){
+                    return skill;
+                }
+            }
+            return null;
+        }
     }
 
-    /**
-     * returns a skill object based on name
-     * @param name the name to get
-     * @return the skill with the matching name
-     */
-    public Skill getSkillName(String name){
-        for(Skill skill : skills){
-            if(skill.getName().toLowerCase().equals(name)){
-                return skill;
-            }
-        }
-        return null;
-    }
 }

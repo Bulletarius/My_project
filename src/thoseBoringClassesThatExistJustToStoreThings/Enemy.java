@@ -8,6 +8,7 @@ public class Enemy {
     private int health;
     private ArrayList<String> skills;
     private String description;
+    private int skillSlots;
 
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
@@ -24,8 +25,10 @@ public class Enemy {
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
 
+    public int getSkillSlots(){return skillSlots;}
+
     @Override
     public String toString() {
-        return name + ":" + description + ", skills=" + skills;
+        return name + "skills=" + skills;
     }
 }

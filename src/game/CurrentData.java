@@ -1,15 +1,19 @@
 package game;
-
+//TODO write JavaDoc
 public class CurrentData {
+    private Inventory inventory;
     private int playerHealth;
     private int currentLocation;
     private int unlockedLocation;
-
+    //TODO write JavaDoc
     public CurrentData(){
+        inventory = new Inventory();
         playerHealth = 100;
         currentLocation = 0;
         unlockedLocation = 3;
     }
+
+    public Inventory getInventory() {return inventory;}
 
     public int getPlayerHealth() {
         return playerHealth;
