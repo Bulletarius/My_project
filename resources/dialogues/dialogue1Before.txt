@@ -1,0 +1,3 @@
+First tutorial dialogue
+second line
+third line

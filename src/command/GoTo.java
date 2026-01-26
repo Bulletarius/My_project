@@ -18,10 +18,11 @@ public class GoTo implements Command{
     /**
      *
      * @param argument the second part of the command used as an argument
-     * @param state current state of the game
+     * @param state    current state of the game
+     * @return
      */
     @Override
-    public void execute(String argument, State state) {
+    public State execute(String argument, State state) {
         if (state == State.IDLE){
             Location requestedLocation = data.getLocation(argument);
             if(requestedLocation != null){
@@ -30,5 +31,6 @@ public class GoTo implements Command{
                 }else System.out.println("You have not reached that location yet");
             }else System.out.println("That location does not exist");
         }else System.out.println("You can not do that right now");
+        return State.DIALOGUE;
     }
 }

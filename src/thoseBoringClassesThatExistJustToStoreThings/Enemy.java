@@ -9,6 +9,17 @@ public class Enemy {
     private ArrayList<String> skills;
     private String description;
     private int skillSlots;
+    private int sanity;
+
+    public Enemy(String id, String name, int health, ArrayList<String> skills, String description, int skillSlots, int sanity) {
+        this.id = id;
+        this.name = name;
+        this.health = health;
+        this.skills = skills;
+        this.description = description;
+        this.skillSlots = skillSlots;
+        this.sanity = sanity;
+    }
 
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
@@ -27,8 +38,16 @@ public class Enemy {
 
     public int getSkillSlots(){return skillSlots;}
 
+    public int getSanity(){return sanity;}
+    public void changeSanity(int change){sanity =+ change;}
+
     @Override
     public String toString() {
         return name + "skills=" + skills;
+    }
+
+    @Override
+    public Object clone() {
+        return new Enemy(id,name,health, skills, description, skillSlots, sanity);
     }
 }

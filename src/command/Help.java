@@ -13,9 +13,12 @@ public class Help implements Command{
     /**
      * prints out the keys of the hash map as the available commands
      * the parameters do not matter
+     *
+     * @return
      */
     @Override
-    public void execute(String argument, State state) {
+    public State execute(String argument, State state) {
         System.out.println("Commands: " + commands.keySet());
+        return state;
     }
 }

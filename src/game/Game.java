@@ -14,12 +14,13 @@ public class Game {
     public Game(){
         data = GameData.loadGameDataFromResources("resources/gamedata.json");
         data.toMap();
-        cData = new CurrentData();
+        cData = new CurrentData(data);
         commands = new HashMap<>();
         commands.put("go", new GoTo(cData, data));
         commands.put("stop", new Stop());
         commands.put("help", new Help(commands));
         commands.put("description", new Description(data));
+        commands.put("c", new Continue(cData));
         state = State.IDLE;
     }
     //TODO write JavaDoc
@@ -33,8 +34,8 @@ public class Game {
             if (executable == null) {
                System.out.println("Invalid command, try using 'help'");
             }else if(split.length == 1){
-                    executable.execute(null, state);
-            }else executable.execute(split[1], state);
+                    state = executable.execute(null, state);
+            }else state = executable.execute(split[1], state);
         }
     }
 }

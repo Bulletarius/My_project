@@ -2,7 +2,6 @@ package command;
 
 import game.GameData;
 import game.State;
-import thoseBoringClassesThatExistJustToStoreThings.Enemy;
 import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
 public class Description implements Command{
@@ -15,14 +14,16 @@ public class Description implements Command{
     /**
      * @param argument the second part of the command used as an argument
      * @param state    current state of the game
+     * @return
      */
     @Override
-    public void execute(String argument, State state) {
+    public State execute(String argument, State state) {
         Skill skill = data.getSkill(argument);
         if (skill == null) {
             System.out.println(data.getEnemy(argument));
 
         }else System.out.println(skill);
 
+        return state;
     }
 }
