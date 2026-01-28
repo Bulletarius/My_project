@@ -43,11 +43,11 @@ public class Enemy {
 
     @Override
     public String toString() {
-        return name + "skills=" + skills;
+        return name + ": Health:" + health + ", Sanity:" + sanity + "skills: [";
     }
 
     @Override
-    public Object clone() {
+    public Enemy clone() {
         return new Enemy(id,name,health, skills, description, skillSlots, sanity);
     }
 }

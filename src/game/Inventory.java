@@ -3,7 +3,68 @@ package game;
 import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class Inventory {
-    private  ArrayList<Skill> ownedSkills;
+    private HashSet<Skill> ownedSkills;
+    private ArrayList<Skill> deck;
+    private LinkedList<Skill> currentDeck;
+    private LinkedList<Skill> hand;
+    private Random random;
+
+    public Inventory(){
+        ownedSkills = new HashSet<>();
+        deck = new ArrayList<>();
+        random = new Random();
+    }
+
+    public void unlockSkill(Skill s){
+        ownedSkills.add(s);
+    }
+
+    public void addDeck(Skill s){
+        if (ownedSkills.contains(s)){
+            deck.add(s);
+            System.out.println("Added successfully");
+        }else System.out.println("You do not own this skill");
+    }
+
+    public void removeDeck(Skill s){
+        if (deck.remove(s)){
+            System.out.println("Removed successfully");
+        }else System.out.println("None of this skill are in your deck");
+    }
+
+    public void makeCurrentDeck(){
+        currentDeck = new LinkedList<>();
+        ArrayList<Skill> tempList = new ArrayList<>(deck);
+        for (int i = 0; i < deck.size(); i++) {
+            currentDeck.add(tempList.remove(random.nextInt(tempList.size())).clone(null));
+        }
+    }
+
+    public void makeHand(int size){
+        for (int i = 0; i < size; i++) {
+            hand.add(currentDeck.pollFirst());
+        }
+    }
+
+    public void returnHand(){
+        currentDeck.addAll(hand);
+        hand = null;
+    }
+
+    public String printHand(){
+        return hand.toString();
+    }
+
+    public boolean removeHand(Skill skill){
+        return hand.remove(skill);
+    }
+
+    public void addHand(Skill skill){
+        hand.add(skill);
+    }
 }

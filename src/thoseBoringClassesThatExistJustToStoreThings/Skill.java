@@ -1,5 +1,7 @@
 package thoseBoringClassesThatExistJustToStoreThings;
 
+import java.util.Objects;
+
 public class Skill implements Cloneable{
     private String id;
     private String name;
@@ -14,11 +16,13 @@ public class Skill implements Cloneable{
     private int sanityDamage;
     private int sanityCost;
     private boolean sanityClash;
+    private Enemy owner;
 
     public Skill(String id, String name, String description,
                  int cost, int basePower, int coinPower, int coinCount,
                  int chargeGained, int chargeCost, boolean chargeClash,
-                 int sanityDamage, int sanityCost, boolean sanityClash) {
+                 int sanityDamage, int sanityCost, boolean sanityClash,
+                 Enemy owner) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -32,6 +36,7 @@ public class Skill implements Cloneable{
         this.sanityDamage = sanityDamage;
         this.sanityCost = sanityCost;
         this.sanityClash = sanityClash;
+        this.owner = owner;
     }
 
     public String getId() {
@@ -86,15 +91,39 @@ public class Skill implements Cloneable{
         return sanityClash;
     }
 
+    public Enemy getOwner(){return owner;}
+
     @Override
     public String toString() {
-        return name + ":" + description;
+        String string = name + ", Cost:" + cost + ", " + basePower ;
+        if (coinPower < 0){
+            string = string.concat("|+" + coinPower + " ");
+        }else{
+            string = string.concat("|-" + coinPower + " ");
+        }
+        for (int i = 0; i < coinCount; i++) {
+            string  = string.concat("◯");
+        }
+        string = string.concat(",]");
+        return string;
+    }
+
+
+    public Skill clone(Enemy owner) {
+        return new Skill(getId(),getName(),getDescription(),getCost(),getBasePower(),getCoinPower()
+                ,getCoinCount(),getChargeGained(),getChargeCost(),isChargeClash(),getSanityDamage()
+                ,getSanityCost(),isSanityClash(),owner);
     }
 
     @Override
-    public Object clone() {
-        return new Skill(getId(),getName(),getDescription(),getCost(),getBasePower(),getCoinPower()
-                ,getCoinCount(),getChargeGained(),getChargeCost(),isChargeClash(),getSanityDamage()
-                ,getSanityCost(),isSanityClash());
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Skill skill = (Skill) o;
+        return Objects.equals(id, skill.id) && Objects.equals(name, skill.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

@@ -1,10 +1,16 @@
 package game;
 
+import thoseBoringClassesThatExistJustToStoreThings.Enemy;
 import thoseBoringClassesThatExistJustToStoreThings.Location;
+import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Random;
 
 //TODO write JavaDoc
 public class CurrentData {
@@ -14,12 +20,20 @@ public class CurrentData {
     private int unlockedLocation;
     private GameData data;
     private BufferedReader reader;
+    private LinkedList<Enemy> enemies;
+    private ArrayList<Skill> enemySkills;
+    private LinkedList<Skill> playerSkills;
+    private ListIterator<Skill> iterator;
+
+
     //TODO write JavaDoc
     public CurrentData(GameData data){
         inventory = new Inventory();
-        playerHealth = 100;
         currentLocation = 0;
         unlockedLocation = 3;
+        enemies = new LinkedList<>();
+        enemySkills = new ArrayList<>();
+        playerSkills = new LinkedList<>();
         this.data = data;
     }
 
@@ -61,16 +75,61 @@ public class CurrentData {
                 return true;
             } else{
                 reader.close();
+                startCombat();
                 return false;
             }
 
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
             return false;
         }
     }
 
     public void startCombat(){
+        for (String enemy : data.getLocation(currentLocation).getEnemies()){
+            enemies.add(data.getEnemy(enemy).clone());
+            playerHealth = 100;
+            startTurn();
+        }
+    }
 
+    public void startTurn(){
+        Random random = new Random();
+        for (Enemy enemy : enemies){
+            ArrayList<String> skills = enemy.getSkills();
+            for (int i = 0; i < enemy.getSkillSlots(); i++) {
+                enemySkills.add(data.getSkill(skills.get(random.nextInt(skills.size()))).clone(enemy));
+            }
+        }
+        iterator = enemySkills.listIterator();
+        printStatus();
+    }
+
+    public void printStatus(){
+        String string = "";
+        int j = 0;
+        for (Enemy enemy : enemies){
+            string = string.concat(enemy.toString());
+            for (int i = 0; i < enemy.getSkillSlots(); i++) {
+                string = string.concat(enemySkills.get(j++).toString());
+            }
+            string = string.concat(System.lineSeparator());
+        }
+        System.out.println(string);
+    }
+
+    public void chooseSkill(String string){
+        Skill skill = data.getSkill(string);
+        if (inventory.removeHand(skill)){
+            playerSkills.add(skill);
+        }else System.out.println("That skill is not in your hand");
+    }
+
+    public void undo(){
+        Skill skill = playerSkills.pollLast();
+        if (skill != null) {
+            inventory.addHand(skill);
+            System.out.println("success");
+        }else System.out.println("There is nothing to undo");
     }
 }

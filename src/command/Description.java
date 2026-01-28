@@ -20,9 +20,9 @@ public class Description implements Command{
     public State execute(String argument, State state) {
         Skill skill = data.getSkill(argument);
         if (skill == null) {
-            System.out.println(data.getEnemy(argument));
+            System.out.println(data.getEnemy(argument).getName() + ", " + data.getEnemy(argument).getDescription());
 
-        }else System.out.println(skill);
+        }else System.out.println(skill.getName() + ", " + skill.getDescription());
 
         return state;
     }
