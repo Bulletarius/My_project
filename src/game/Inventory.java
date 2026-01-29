@@ -25,10 +25,12 @@ public class Inventory {
     }
 
     public void addDeck(Skill s){
-        if (ownedSkills.contains(s)){
-            deck.add(s);
-            System.out.println("Added successfully");
-        }else System.out.println("You do not own this skill");
+        if(deck.size() >= 30){
+            if (ownedSkills.contains(s)){
+                deck.add(s);
+                System.out.println("Added successfully");
+            }else System.out.println("You do not own this skill");
+        }else System.out.println("Your deck is already at the maximum size");
     }
 
     public void removeDeck(Skill s){
@@ -46,6 +48,7 @@ public class Inventory {
     }
 
     public void makeHand(int size){
+        hand = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             hand.add(currentDeck.pollFirst());
         }

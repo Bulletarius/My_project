@@ -39,11 +39,11 @@ public class Enemy {
     public int getSkillSlots(){return skillSlots;}
 
     public int getSanity(){return sanity;}
-    public void changeSanity(int change){sanity =+ change;}
+    public void changeSanity(int change){sanity += change;}
 
     @Override
     public String toString() {
-        return name + ": Health:" + health + ", Sanity:" + sanity + "skills: [";
+        return name + ": Health:" + health + ", Sanity:" + sanity + ", skills: [";
     }
 
     @Override

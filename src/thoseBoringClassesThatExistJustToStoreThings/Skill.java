@@ -96,7 +96,7 @@ public class Skill implements Cloneable{
     @Override
     public String toString() {
         String string = name + ", Cost:" + cost + ", " + basePower ;
-        if (coinPower < 0){
+        if (coinPower > 0){
             string = string.concat("|+" + coinPower + " ");
         }else{
             string = string.concat("|-" + coinPower + " ");

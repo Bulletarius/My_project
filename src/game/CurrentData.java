@@ -24,6 +24,8 @@ public class CurrentData {
     private ArrayList<Skill> enemySkills;
     private LinkedList<Skill> playerSkills;
     private ListIterator<Skill> iterator;
+    private Skill currentskill;
+    private int stamina;
 
 
     //TODO write JavaDoc
@@ -88,9 +90,10 @@ public class CurrentData {
     public void startCombat(){
         for (String enemy : data.getLocation(currentLocation).getEnemies()){
             enemies.add(data.getEnemy(enemy).clone());
-            playerHealth = 100;
-            startTurn();
         }
+        playerHealth = 100;
+        inventory.makeCurrentDeck();
+        startTurn();
     }
 
     public void startTurn(){
@@ -102,7 +105,12 @@ public class CurrentData {
             }
         }
         iterator = enemySkills.listIterator();
+        inventory.makeHand(enemySkills.size());
+        stamina += random.nextInt(4) * Math.round(enemySkills.size() * 1.45f);
+        currentskill = enemySkills.get(0);
         printStatus();
+        try{Thread.sleep(2000);} catch (InterruptedException ignored) {}
+        printCurrentStatus();
     }
 
     public void printStatus(){
@@ -122,6 +130,8 @@ public class CurrentData {
         Skill skill = data.getSkill(string);
         if (inventory.removeHand(skill)){
             playerSkills.add(skill);
+            currentskill = iterator.next();
+            printCurrentStatus();
         }else System.out.println("That skill is not in your hand");
     }
 
@@ -129,7 +139,16 @@ public class CurrentData {
         Skill skill = playerSkills.pollLast();
         if (skill != null) {
             inventory.addHand(skill);
+            currentskill = iterator.previous();
             System.out.println("success");
+            printCurrentStatus();
         }else System.out.println("There is nothing to undo");
+    }
+
+    public void printCurrentStatus(){
+        System.out.println(currentskill.getOwner());
+        System.out.println(currentskill + System.lineSeparator());
+        System.out.println("cost:" + stamina);
+        System.out.println(inventory.printHand());
     }
 }
