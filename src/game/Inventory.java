@@ -12,12 +12,10 @@ public class Inventory {
     private ArrayList<Skill> deck;
     private LinkedList<Skill> currentDeck;
     private LinkedList<Skill> hand;
-    private Random random;
 
     public Inventory(){
         ownedSkills = new HashSet<>();
         deck = new ArrayList<>();
-        random = new Random();
     }
 
     public void unlockSkill(Skill s){
@@ -40,6 +38,8 @@ public class Inventory {
     }
 
     public void makeCurrentDeck(){
+        Random random;
+        random  = new Random();
         currentDeck = new LinkedList<>();
         ArrayList<Skill> tempList = new ArrayList<>(deck);
         for (int i = 0; i < deck.size(); i++) {
@@ -69,5 +69,12 @@ public class Inventory {
 
     public void addHand(Skill skill){
         hand.add(skill);
+    }
+
+    @Override
+    public String toString() {
+        return "Owned skills:" + System.lineSeparator()
+                + ownedSkills + System.lineSeparator()
+                + "Deck:" + System.lineSeparator() + deck;
     }
 }

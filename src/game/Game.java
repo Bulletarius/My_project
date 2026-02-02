@@ -23,6 +23,9 @@ public class Game {
         commands.put("c", new Continue(cData));
         commands.put("undo", new Undo(cData));
         commands.put("use", new Use(cData));
+        commands.put("equip", new Equip(cData, data));
+        commands.put("unequip", new Unequip(cData, data));
+        commands.put("inventory", new PrintInventory(cData));
         state = State.DIALOGUE;
         cData.setCurrentLocation(0);
     }

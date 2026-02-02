@@ -26,6 +26,7 @@ public class CurrentData {
     private ListIterator<Skill> iterator;
     private Skill currentskill;
     private int stamina;
+    private int sanity;
 
 
     //TODO write JavaDoc
@@ -106,8 +107,8 @@ public class CurrentData {
         }
         iterator = enemySkills.listIterator();
         inventory.makeHand(enemySkills.size());
-        stamina += random.nextInt(4) * Math.round(enemySkills.size() * 1.45f);
-        currentskill = enemySkills.get(0);
+        stamina += random.nextInt(4) * Math.round((enemySkills.size() + 1) * 0.5f);
+        currentskill = enemySkills.getFirst();
         printStatus();
         try{Thread.sleep(2000);} catch (InterruptedException ignored) {}
         printCurrentStatus();
@@ -127,8 +128,17 @@ public class CurrentData {
     }
 
     public void chooseSkill(String string){
+        if(enemySkills.size() <= playerSkills.size()){
+            System.out.println("You already have all skills equipped");
+            return;
+        }
         Skill skill = data.getSkill(string);
+        if (skill.getCost() > stamina){
+            System.out.println("You do not have enough cost");
+            return;
+        }
         if (inventory.removeHand(skill)){
+            stamina -= skill.getCost();
             playerSkills.add(skill);
             currentskill = iterator.next();
             printCurrentStatus();
@@ -142,6 +152,7 @@ public class CurrentData {
             currentskill = iterator.previous();
             System.out.println("success");
             printCurrentStatus();
+            stamina += skill.getCost();
         }else System.out.println("There is nothing to undo");
     }
 
@@ -150,5 +161,20 @@ public class CurrentData {
         System.out.println(currentskill + System.lineSeparator());
         System.out.println("cost:" + stamina);
         System.out.println(inventory.printHand());
+    }
+
+    public void evaluate(){
+        if(enemySkills.size() != playerSkills.size()){
+            System.out.println("You have not equipped all skills");
+        }
+        iterator = null;
+        iterator = enemySkills.listIterator();
+        //ListIterator<Skill> pIterator = playerSkills.listIterator();
+        for (Skill skill : playerSkills){
+            int playerPower = skill.getBasePower();
+            for (int i = 0; i < skill.getCoinCount(); i++) {
+
+            }
+        }
     }
 }
