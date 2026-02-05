@@ -10,6 +10,8 @@ public class Game {
     private HashMap<String, Command> commands;
     private State state;
     private CurrentData cData;
+    private boolean exit = false;
+
     //TODO write JavaDoc
     public Game(){
         data = GameData.loadGameDataFromResources("resources/gamedata.json");
@@ -17,7 +19,7 @@ public class Game {
         cData = new CurrentData(data);
         commands = new HashMap<>();
         commands.put("go", new GoTo(cData, data));
-        commands.put("stop", new Stop());
+        commands.put("stop", new Stop(this));
         commands.put("help", new Help(commands));
         commands.put("description", new Description(data));
         commands.put("c", new Continue(cData));
@@ -32,7 +34,7 @@ public class Game {
     //TODO write JavaDoc
     public void run(){
         Scanner scanner = new Scanner(System.in);
-        while(true){
+        while(!exit){
             System.out.print('>');
             String command = scanner.nextLine();
             String[] split =command.toLowerCase().trim().split(" ", 2);
@@ -43,5 +45,9 @@ public class Game {
                     state = executable.execute(null, state);
             }else state = executable.execute(split[1], state);
         }
+    }
+
+    public void setExit(){
+        exit = true;
     }
 }
