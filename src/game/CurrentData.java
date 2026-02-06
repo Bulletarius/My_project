@@ -27,6 +27,7 @@ public class CurrentData {
     private Skill currentskill;
     private int stamina;
     private int sanity;
+    private Random random;
 
 
     //TODO write JavaDoc
@@ -38,6 +39,7 @@ public class CurrentData {
         enemySkills = new ArrayList<>();
         playerSkills = new LinkedList<>();
         this.data = data;
+        random = new Random();
     }
 
     public Inventory getInventory() {return inventory;}
@@ -98,7 +100,6 @@ public class CurrentData {
     }
 
     public void startTurn(){
-        Random random = new Random();
         for (Enemy enemy : enemies){
             ArrayList<String> skills = enemy.getSkills();
             for (int i = 0; i < enemy.getSkillSlots(); i++) {
