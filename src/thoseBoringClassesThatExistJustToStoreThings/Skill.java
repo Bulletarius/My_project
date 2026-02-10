@@ -93,6 +93,8 @@ public class Skill implements Cloneable{
 
     public Enemy getOwner(){return owner;}
 
+    public void changeCoinCount(int change){coinCount += change;}
+
     @Override
     public String toString() {
         String string = name + ", Cost:" + cost + ", " + basePower ;

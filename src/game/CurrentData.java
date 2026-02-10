@@ -167,15 +167,41 @@ public class CurrentData {
     public void evaluate(){
         if(enemySkills.size() != playerSkills.size()){
             System.out.println("You have not equipped all skills");
+            return;
         }
         iterator = null;
         iterator = enemySkills.listIterator();
         //ListIterator<Skill> pIterator = playerSkills.listIterator();
         for (Skill skill : playerSkills){
+            Skill enemySkill = iterator.next();
             int playerPower = skill.getBasePower();
             for (int i = 0; i < skill.getCoinCount(); i++) {
+                if(roll(sanity)){
+                    playerPower += skill.getCoinPower();
+                    System.out.print(" ◙"+ playerPower);
+                }else System.out.print(" x"+ playerPower);
+            }
+            System.out.print("   :   ");
+            int enemyPower = enemySkill.getBasePower();
+            for (int i = 0; i < enemySkill.getCoinCount(); i++) {
+                if(roll(enemySkill.getOwner().getSanity())){
+                     enemyPower += skill.getCoinPower();
+                    System.out.print(" ◙"+ enemyPower);
+                }else System.out.print(" x"+ enemyPower);
+            }
+            System.out.println();
+            if(playerPower > enemyPower){
 
             }
         }
+    }
+
+    private boolean roll(int sanity){
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return random.nextInt(-50, 51) > sanity;
     }
 }

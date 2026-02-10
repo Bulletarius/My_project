@@ -13,8 +13,6 @@ public class Help implements Command{
     /**
      * prints out the keys of the hash map as the available commands
      * the parameters do not matter
-     *
-     * @return
      */
     @Override
     public State execute(String argument, State state) {
