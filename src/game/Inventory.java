@@ -13,9 +13,13 @@ public class Inventory {
     private LinkedList<Skill> currentDeck;
     private LinkedList<Skill> hand;
 
-    public Inventory(){
+    public Inventory(GameData data){
         ownedSkills = new HashSet<>();
         deck = new ArrayList<>();
+        ownedSkills.add(data.getSkill("s_p_test"));
+        for (int i = 0; i < 10; i++) {
+            deck.add(data.getSkill("s_p_test"));
+        }
     }
 
     public void unlockSkill(Skill s){

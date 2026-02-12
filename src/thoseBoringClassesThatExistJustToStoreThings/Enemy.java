@@ -28,7 +28,7 @@ public class Enemy {
     public void setName(String name) {this.name = name;}
 
     public int getHealth() {return health;}
-    public void setHealth(int health) {this.health = health;}
+    public void changeHealth(int change) {health -= change;}
 
     public ArrayList<String> getSkills() {return skills;}
     public void setSkills(ArrayList<String> skills) {this.skills = skills;}

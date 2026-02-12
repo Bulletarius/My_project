@@ -93,7 +93,7 @@ public class Skill implements Cloneable{
 
     public Enemy getOwner(){return owner;}
 
-    public void changeCoinCount(int change){coinCount += change;}
+    public void looseCoin(){--coinCount;}
 
     @Override
     public String toString() {
@@ -104,7 +104,7 @@ public class Skill implements Cloneable{
             string = string.concat("|-" + coinPower + " ");
         }
         for (int i = 0; i < coinCount; i++) {
-            string  = string.concat("◯");
+            string  = string.concat("○");
         }
         string = string.concat(",]");
         return string;

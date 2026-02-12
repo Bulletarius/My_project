@@ -32,7 +32,7 @@ public class CurrentData {
 
     //TODO write JavaDoc
     public CurrentData(GameData data){
-        inventory = new Inventory();
+        inventory = new Inventory(data);
         currentLocation = 0;
         unlockedLocation = 3;
         enemies = new LinkedList<>();
@@ -91,6 +91,7 @@ public class CurrentData {
     }
 
     public void startCombat(){
+        stamina = 5;
         for (String enemy : data.getLocation(currentLocation).getEnemies()){
             enemies.add(data.getEnemy(enemy).clone());
         }
@@ -109,7 +110,7 @@ public class CurrentData {
         iterator = enemySkills.listIterator();
         inventory.makeHand(enemySkills.size());
         stamina += random.nextInt(4) * Math.round((enemySkills.size() + 1) * 0.5f);
-        currentskill = enemySkills.getFirst();
+        currentskill = enemySkills.get(0);
         printStatus();
         try{Thread.sleep(2000);} catch (InterruptedException ignored) {}
         printCurrentStatus();
@@ -134,6 +135,10 @@ public class CurrentData {
             return;
         }
         Skill skill = data.getSkill(string);
+        if (skill == null) {
+            System.out.println("That skill does not exist");
+            return;
+        }
         if (skill.getCost() > stamina){
             System.out.println("You do not have enough cost");
             return;
@@ -152,8 +157,8 @@ public class CurrentData {
             inventory.addHand(skill);
             currentskill = iterator.previous();
             System.out.println("success");
-            printCurrentStatus();
             stamina += skill.getCost();
+            printCurrentStatus();
         }else System.out.println("There is nothing to undo");
     }
 
@@ -172,36 +177,68 @@ public class CurrentData {
         iterator = null;
         iterator = enemySkills.listIterator();
         //ListIterator<Skill> pIterator = playerSkills.listIterator();
-        for (Skill skill : playerSkills){
+        for (Skill playerSkill : playerSkills){
             Skill enemySkill = iterator.next();
-            int playerPower = skill.getBasePower();
-            for (int i = 0; i < skill.getCoinCount(); i++) {
-                if(roll(sanity)){
-                    playerPower += skill.getCoinPower();
-                    System.out.print(" ◙"+ playerPower);
-                }else System.out.print(" x"+ playerPower);
+            while (!(playerSkill.getCoinCount() ==0 || enemySkill.getCoinCount() == 0 )){
+                int playerPower = playerSkill.getBasePower();
+                for (int i = 0; i < playerSkill.getCoinCount(); i++) {
+                    if (roll(sanity)) {
+                        playerPower += playerSkill.getCoinPower();
+                        System.out.print(" ◙" + playerPower);
+                    } else System.out.print(" x" + playerPower);
+                }
+                System.out.print("   :   ");
+                int enemyPower = enemySkill.getBasePower();
+                for (int i = 0; i < enemySkill.getCoinCount(); i++) {
+                    if (roll(enemySkill.getOwner().getSanity())) {
+                        enemyPower += enemySkill.getCoinPower();
+                        System.out.print(" ◙" + enemyPower);
+                    } else System.out.print(" x" + enemyPower);
+                }
+                System.out.println();
+                if (playerPower > enemyPower) {
+                    enemySkill.looseCoin();
+                    System.out.println("enemy lost a coin");
+                } else if (playerPower < enemyPower) {
+                    playerSkill.looseCoin();
+                    System.out.println("you lost a coin");
+                }
             }
-            System.out.print("   :   ");
-            int enemyPower = enemySkill.getBasePower();
-            for (int i = 0; i < enemySkill.getCoinCount(); i++) {
-                if(roll(enemySkill.getOwner().getSanity())){
-                     enemyPower += skill.getCoinPower();
-                    System.out.print(" ◙"+ enemyPower);
-                }else System.out.print(" x"+ enemyPower);
+            int damage;
+            if (enemySkill.getCoinCount() == 0) {
+                damage = playerSkill.getBasePower();
+                for (int i = 0; i < playerSkill.getCoinCount(); i++) {
+                    if (roll(sanity)){
+                        damage += playerSkill.getCoinPower();
+                        System.out.print("◙");
+                    }else System.out.print("x");
+                    enemySkill.getOwner().changeHealth(damage);
+                    System.out.println(damage + "damage. remaining Health: "+ enemySkill.getOwner().getHealth());
+                }
+            }else {
+                damage = enemySkill.getBasePower();
+                for (int i = 0; i < enemySkill.getCoinCount(); i++) {
+                    if (roll(enemySkill.getOwner().getSanity())) {
+                        damage += enemySkill.getCoinPower();
+                        System.out.print("◙");
+                    }else System.out.print("x");
+                    playerHealth -= damage;
+                    System.out.println(damage + "damage. remaining Health: "+ playerHealth);
+                }
             }
             System.out.println();
-            if(playerPower > enemyPower){
-
-            }
         }
+        enemySkills.clear();
+        playerSkills.clear();
+        startTurn();
     }
 
     private boolean roll(int sanity){
         try {
-            Thread.sleep(300);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return random.nextInt(-50, 51) > sanity;
+        return random.nextInt(-50, 51) >= sanity;
     }
 }

@@ -28,6 +28,7 @@ public class Game {
         commands.put("equip", new Equip(cData, data));
         commands.put("unequip", new Unequip(cData, data));
         commands.put("inventory", new PrintInventory(cData));
+        commands.put("ready", new Ready(cData));
         state = State.DIALOGUE;
         cData.setCurrentLocation(0);
     }
