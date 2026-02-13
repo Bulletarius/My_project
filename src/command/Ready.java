@@ -13,7 +13,7 @@ public class Ready implements Command{
     @Override
     public State execute(String argument, State state) {
         if (state == State.COMBAT){
-            cData.evaluate();
+            return cData.evaluate();
         }else System.out.println("not in combat");
         return state;
     }

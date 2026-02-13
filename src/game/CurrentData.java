@@ -5,6 +5,7 @@ import thoseBoringClassesThatExistJustToStoreThings.Location;
 import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public class CurrentData {
     private int stamina;
     private int sanity;
     private Random random;
+    private State nextState;
 
 
     //TODO write JavaDoc
     public CurrentData(GameData data){
         inventory = new Inventory(data);
-        currentLocation = 0;
-        unlockedLocation = 3;
+        unlockedLocation = 0;
         enemies = new LinkedList<>();
         enemySkills = new ArrayList<>();
         playerSkills = new LinkedList<>();
@@ -57,11 +58,12 @@ public class CurrentData {
     public void setCurrentLocation(int currentLocation) {
         this.currentLocation = currentLocation;
         Location location = data.getLocation(currentLocation);
+        nextState = State.COMBAT;
         try {
             reader = new BufferedReader(new FileReader(location.getDialogueFileBefore()));
             stepDialogue();
         }catch (Exception e){
-            System.out.println("Unable to load dialogue file, placeholder dialogue");
+            System.err.println("Unable to load dialogue file. placeholder dialogue");
         }
     }
 
@@ -72,21 +74,21 @@ public class CurrentData {
         this.unlockedLocation = unlockedLocation;
     }
 
-    public boolean stepDialogue(){
+    public State stepDialogue(){
         try {
             String line = reader.readLine();
             if (line != null) {
                 System.out.println(line);
-                return true;
+                return State.DIALOGUE;
             } else{
                 reader.close();
                 startCombat();
-                return false;
+                return nextState;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return nextState;
         }
     }
 
@@ -145,7 +147,7 @@ public class CurrentData {
         }
         if (inventory.removeHand(skill)){
             stamina -= skill.getCost();
-            playerSkills.add(skill);
+            playerSkills.add(skill.clone(null));
             if (iterator.hasNext()){
                 currentskill = iterator.next();
                 printCurrentStatus();
@@ -171,10 +173,10 @@ public class CurrentData {
         System.out.println(inventory.printHand());
     }
 
-    public void evaluate(){
+    public State evaluate(){
         if(enemySkills.size() != playerSkills.size()){
             System.out.println("You have not equipped all skills");
-            return;
+            return State.COMBAT;
         }
         iterator = null;
         iterator = enemySkills.listIterator();
@@ -208,7 +210,7 @@ public class CurrentData {
             }
             int damage;
             if (enemySkill.getCoinCount() == 0) {
-                System.out.println("You on the clash");
+                System.out.println("You won the clash");
                 sanity += 10;
                 damage = playerSkill.getBasePower();
                 for (int i = 0; i < playerSkill.getCoinCount(); i++) {
@@ -235,9 +237,25 @@ public class CurrentData {
             System.out.println();
         }
         enemies.removeIf(enemy -> enemy.getHealth() <= 0);
-        enemySkills.clear();
-        playerSkills.clear();
-        startTurn();
+        if (enemies.isEmpty()){
+            try {
+                reader = new BufferedReader(new FileReader(data.getLocation(currentLocation).getDialogueFileAfter()));
+                stepDialogue();
+            } catch (FileNotFoundException e) {
+                System.err.println("Unable to load dialogue. placeholder dialogue.");;
+            }
+            nextState = State.IDLE;
+            if (currentLocation == unlockedLocation){
+                unlockedLocation++;
+            }
+            return State.DIALOGUE;
+        }else {
+            enemySkills.clear();
+            playerSkills.clear();
+            inventory.returnHand();
+            startTurn();
+            return State.COMBAT;
+        }
     }
 
     private boolean roll(int sanity){
@@ -246,6 +264,6 @@ public class CurrentData {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return random.nextInt(-50, 51) >= sanity;
+        return !(random.nextInt(-50, 51) < sanity);
     }
 }

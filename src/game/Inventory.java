@@ -14,6 +14,7 @@ public class Inventory {
     private LinkedList<Skill> hand;
 
     public Inventory(GameData data){
+        hand = new LinkedList<>();
         ownedSkills = new HashSet<>();
         deck = new ArrayList<>();
         ownedSkills.add(data.getSkill("s_p_test"));
@@ -27,7 +28,7 @@ public class Inventory {
     }
 
     public void addDeck(Skill s){
-        if(deck.size() >= 30){
+        if(deck.size() <= 30){
             if (ownedSkills.contains(s)){
                 deck.add(s);
                 System.out.println("Added successfully");
@@ -42,8 +43,7 @@ public class Inventory {
     }
 
     public void makeCurrentDeck(){
-        Random random;
-        random  = new Random();
+        Random random = new Random();
         currentDeck = new LinkedList<>();
         ArrayList<Skill> tempList = new ArrayList<>(deck);
         for (int i = 0; i < deck.size(); i++) {
@@ -52,7 +52,6 @@ public class Inventory {
     }
 
     public void makeHand(int size){
-        hand = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             hand.add(currentDeck.pollFirst());
         }
@@ -60,7 +59,7 @@ public class Inventory {
 
     public void returnHand(){
         currentDeck.addAll(hand);
-        hand = null;
+        hand.clear();
     }
 
     public String printHand(){
