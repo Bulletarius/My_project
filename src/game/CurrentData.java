@@ -108,9 +108,9 @@ public class CurrentData {
             }
         }
         iterator = enemySkills.listIterator();
-        inventory.makeHand(enemySkills.size());
+        inventory.makeHand(enemySkills.size()*2);
         stamina += random.nextInt(4) * Math.round((enemySkills.size() + 1) * 0.5f);
-        currentskill = enemySkills.get(0);
+        currentskill = iterator.next();
         printStatus();
         try{Thread.sleep(2000);} catch (InterruptedException ignored) {}
         printCurrentStatus();
@@ -146,8 +146,10 @@ public class CurrentData {
         if (inventory.removeHand(skill)){
             stamina -= skill.getCost();
             playerSkills.add(skill);
-            currentskill = iterator.next();
-            printCurrentStatus();
+            if (iterator.hasNext()){
+                currentskill = iterator.next();
+                printCurrentStatus();
+            }else System.out.println("You have now used all skills");
         }else System.out.println("That skill is not in your hand");
     }
 
@@ -165,7 +167,7 @@ public class CurrentData {
     public void printCurrentStatus(){
         System.out.println(currentskill.getOwner());
         System.out.println(currentskill + System.lineSeparator());
-        System.out.println("cost:" + stamina);
+        System.out.println("cost:" + stamina + " sanity:" + sanity);
         System.out.println(inventory.printHand());
     }
 
@@ -185,7 +187,7 @@ public class CurrentData {
                     if (roll(sanity)) {
                         playerPower += playerSkill.getCoinPower();
                         System.out.print(" ◙" + playerPower);
-                    } else System.out.print(" x" + playerPower);
+                    } else System.out.print(" ×" + playerPower);
                 }
                 System.out.print("   :   ");
                 int enemyPower = enemySkill.getBasePower();
@@ -193,7 +195,7 @@ public class CurrentData {
                     if (roll(enemySkill.getOwner().getSanity())) {
                         enemyPower += enemySkill.getCoinPower();
                         System.out.print(" ◙" + enemyPower);
-                    } else System.out.print(" x" + enemyPower);
+                    } else System.out.print(" ×" + enemyPower);
                 }
                 System.out.println();
                 if (playerPower > enemyPower) {
@@ -206,28 +208,33 @@ public class CurrentData {
             }
             int damage;
             if (enemySkill.getCoinCount() == 0) {
+                System.out.println("You on the clash");
+                sanity += 10;
                 damage = playerSkill.getBasePower();
                 for (int i = 0; i < playerSkill.getCoinCount(); i++) {
                     if (roll(sanity)){
                         damage += playerSkill.getCoinPower();
                         System.out.print("◙");
-                    }else System.out.print("x");
+                    }else System.out.print("×");
                     enemySkill.getOwner().changeHealth(damage);
                     System.out.println(damage + "damage. remaining Health: "+ enemySkill.getOwner().getHealth());
                 }
             }else {
+                System.out.println("Enemy won the clash");
+                enemySkill.getOwner().changeSanity(10);
                 damage = enemySkill.getBasePower();
                 for (int i = 0; i < enemySkill.getCoinCount(); i++) {
                     if (roll(enemySkill.getOwner().getSanity())) {
                         damage += enemySkill.getCoinPower();
                         System.out.print("◙");
-                    }else System.out.print("x");
+                    }else System.out.print("×");
                     playerHealth -= damage;
                     System.out.println(damage + "damage. remaining Health: "+ playerHealth);
                 }
             }
             System.out.println();
         }
+        enemies.removeIf(enemy -> enemy.getHealth() <= 0);
         enemySkills.clear();
         playerSkills.clear();
         startTurn();

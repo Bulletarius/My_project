@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 /**
  * a class to store manage and access game data
+ * @author Michaela Meintnerová, Patrik Novotný, Matěj Chaloupka
  */
 public class GameData {
     private ArrayList<Location> locations;
