@@ -4,6 +4,10 @@ import game.CurrentData;
 import game.Inventory;
 import game.State;
 
+/**
+ * A command to print the inventory.
+ * @author Patrik Novotný
+ */
 public class PrintInventory implements Command{
     private Inventory inventory;
 

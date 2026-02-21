@@ -2,6 +2,10 @@ package thoseBoringClassesThatExistJustToStoreThings;
 
 import java.util.ArrayList;
 
+/**
+ * A class to store and represent an enemy.
+ * @author Patrik Novotný
+ */
 public class Enemy {
     private String id;
     private String name;

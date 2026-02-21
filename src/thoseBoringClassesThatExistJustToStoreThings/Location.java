@@ -2,6 +2,10 @@ package thoseBoringClassesThatExistJustToStoreThings;
 
 import java.util.ArrayList;
 
+/**
+ * A class to store and represent a location.
+ * @author Patrik Novotný
+ */
 public class Location {
     private int id;
     private String name;
