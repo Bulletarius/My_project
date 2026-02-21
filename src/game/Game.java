@@ -4,7 +4,11 @@ import command.*;
 
 import java.util.HashMap;
 import java.util.Scanner;
-//TODO write JavaDoc
+
+/**
+ * The console class.
+ * @author Patrik Novotný
+ */
 public class Game {
     private GameData data;
     private HashMap<String, Command> commands;
@@ -12,9 +16,9 @@ public class Game {
     private CurrentData cData;
     private boolean exit = false;
 
-    //TODO write JavaDoc
+
     public Game(){
-        data = GameData.loadGameDataFromResources("resources/gamedata.json");
+        data = GameData.loadGameDataFromResources("/gamedata.json");
         data.toMap();
         cData = new CurrentData(data);
         commands = new HashMap<>();
@@ -32,7 +36,10 @@ public class Game {
         state = State.DIALOGUE;
         cData.setCurrentLocation(0);
     }
-    //TODO write JavaDoc
+
+    /**
+     *The main loop that reads the input and executes commands.
+     */
     public void run(){
         Scanner scanner = new Scanner(System.in);
         while(!exit){
@@ -48,6 +55,9 @@ public class Game {
         }
     }
 
+    /**
+     * sets an internal flag to true to stop the program next time
+     */
     public void setExit(){
         exit = true;
     }

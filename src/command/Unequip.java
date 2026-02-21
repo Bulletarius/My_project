@@ -5,6 +5,10 @@ import game.GameData;
 import game.Inventory;
 import game.State;
 
+/**
+ * A command to remove a skill from the deck.
+ * @author Patrik Novotný
+ */
 public class Unequip implements Command{
     private Inventory inventory;
     private GameData data;
@@ -15,8 +19,10 @@ public class Unequip implements Command{
     }
 
     /**
+     * A command to remove a skill from the deck.
      * @param argument the second part of the command used as an argument
      * @param state    current state of the game
+     * @return the next state that should be set
      */
     @Override
     public State execute(String argument, State state) {

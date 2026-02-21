@@ -28,6 +28,8 @@ public class GoTo implements Command{
             if(requestedLocation != null){
                 if(requestedLocation.getId() <= cData.getUnlockedLocation()){
                     cData.setCurrentLocation(requestedLocation.getId());
+                }else if(argument.equals("next")){
+                    cData.setCurrentLocation(cData.getUnlockedLocation());
                 }else System.out.println("You have not reached that location yet");
             }else System.out.println("That location does not exist");
         }else System.out.println("You can not do that right now");

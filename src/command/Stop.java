@@ -3,8 +3,12 @@ package command;
 import game.Game;
 import game.State;
 
+/**
+ * A command to stop the program.
+ * @author Patrik Novotný
+ */
 public class Stop implements Command{
-    private Game game;
+    private final Game game;
 
     public Stop(Game game){
         this.game =game;

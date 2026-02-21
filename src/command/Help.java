@@ -2,10 +2,14 @@ package command;
 
 import game.State;
 import java.util.HashMap;
-//TODO write JavaDoc
+
+/**
+ * A command to print all possible commands.
+ * @author Patrik Novotný
+ */
 public class Help implements Command{
     private HashMap<String,Command> commands;
-    //TODO write JavaDoc
+
     public Help(HashMap<String, Command> commands){
         this.commands = commands;
     }

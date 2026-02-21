@@ -4,16 +4,16 @@ import thoseBoringClassesThatExistJustToStoreThings.Enemy;
 import thoseBoringClassesThatExistJustToStoreThings.Location;
 import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
 
-//TODO write JavaDoc
+/**
+ * A class that handles basically everything
+ * @author Patrik Novotný
+ */
 public class CurrentData {
     private Inventory inventory;
     private int playerHealth;
@@ -32,7 +32,6 @@ public class CurrentData {
     private State nextState;
 
 
-    //TODO write JavaDoc
     public CurrentData(GameData data){
         inventory = new Inventory(data);
         unlockedLocation = 0;
@@ -55,16 +54,17 @@ public class CurrentData {
     public int getCurrentLocation() {
         return currentLocation;
     }
+
+    /**
+     * sets the current location to the one
+     * @param currentLocation the location to go to
+     */
     public void setCurrentLocation(int currentLocation) {
         this.currentLocation = currentLocation;
         Location location = data.getLocation(currentLocation);
         nextState = State.COMBAT;
-        try {
-            reader = new BufferedReader(new FileReader(location.getDialogueFileBefore()));
-            stepDialogue();
-        }catch (Exception e){
-            System.err.println("Unable to load dialogue file. placeholder dialogue");
-        }
+        reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(location.getDialogueFileBefore())));
+        stepDialogue();
     }
 
     public int getUnlockedLocation() {
@@ -74,6 +74,10 @@ public class CurrentData {
         this.unlockedLocation = unlockedLocation;
     }
 
+    /**
+     * Prints a next line from the dialogue file.
+     * @return state that should be set
+     */
     public State stepDialogue(){
         try {
             String line = reader.readLine();
@@ -82,7 +86,9 @@ public class CurrentData {
                 return State.DIALOGUE;
             } else{
                 reader.close();
-                startCombat();
+                if (nextState == State.COMBAT) {
+                    startCombat();
+                }
                 return nextState;
             }
 
@@ -92,7 +98,7 @@ public class CurrentData {
         }
     }
 
-    public void startCombat(){
+    private void startCombat(){
         stamina = 5;
         for (String enemy : data.getLocation(currentLocation).getEnemies()){
             enemies.add(data.getEnemy(enemy).clone());
@@ -102,7 +108,7 @@ public class CurrentData {
         startTurn();
     }
 
-    public void startTurn(){
+    private void startTurn(){
         for (Enemy enemy : enemies){
             ArrayList<String> skills = enemy.getSkills();
             for (int i = 0; i < enemy.getSkillSlots(); i++) {
@@ -118,7 +124,7 @@ public class CurrentData {
         printCurrentStatus();
     }
 
-    public void printStatus(){
+    private void printStatus(){
         String string = "";
         int j = 0;
         for (Enemy enemy : enemies){
@@ -131,6 +137,10 @@ public class CurrentData {
         System.out.println(string);
     }
 
+    /**
+     * Method to add a skill to the internal list of player skills.
+     * @param string Name or id of the skill that was chosen.
+     */
     public void chooseSkill(String string){
         if(enemySkills.size() <= playerSkills.size()){
             System.out.println("You already have all skills equipped");
@@ -155,6 +165,9 @@ public class CurrentData {
         }else System.out.println("That skill is not in your hand");
     }
 
+    /**
+     * removes the last skill from the internal list.
+     */
     public void undo(){
         Skill skill = playerSkills.pollLast();
         if (skill != null) {
@@ -166,13 +179,17 @@ public class CurrentData {
         }else System.out.println("There is nothing to undo");
     }
 
-    public void printCurrentStatus(){
+    private void printCurrentStatus(){
         System.out.println(currentskill.getOwner());
         System.out.println(currentskill + System.lineSeparator());
         System.out.println("cost:" + stamina + " sanity:" + sanity);
         System.out.println(inventory.printHand());
     }
 
+    /**
+     * A method to evaluate and print the skills chosen by the player and enemies.
+     * @return state that should be set
+     */
     public State evaluate(){
         if(enemySkills.size() != playerSkills.size()){
             System.out.println("You have not equipped all skills");
@@ -180,7 +197,6 @@ public class CurrentData {
         }
         iterator = null;
         iterator = enemySkills.listIterator();
-        //ListIterator<Skill> pIterator = playerSkills.listIterator();
         for (Skill playerSkill : playerSkills){
             Skill enemySkill = iterator.next();
             while (!(playerSkill.getCoinCount() ==0 || enemySkill.getCoinCount() == 0 )){
@@ -238,17 +254,16 @@ public class CurrentData {
         }
         enemies.removeIf(enemy -> enemy.getHealth() <= 0);
         if (enemies.isEmpty()){
-            try {
-                reader = new BufferedReader(new FileReader(data.getLocation(currentLocation).getDialogueFileAfter()));
-                stepDialogue();
-            } catch (FileNotFoundException e) {
-                System.err.println("Unable to load dialogue. placeholder dialogue.");;
-            }
+            reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(data.getLocation(currentLocation).getDialogueFileAfter())));
+            stepDialogue();
             nextState = State.IDLE;
             if (currentLocation == unlockedLocation){
                 unlockedLocation++;
             }
             return State.DIALOGUE;
+        }else if (playerHealth <= 0) {
+            System.out.println("You lost");
+            return State.IDLE;
         }else {
             enemySkills.clear();
             playerSkills.clear();

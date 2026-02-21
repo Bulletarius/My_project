@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * A class to store owned skills by the player, the players deck and hand.
+ * @author Patrik Novotný
+ */
 public class Inventory {
     private HashSet<Skill> ownedSkills;
     private ArrayList<Skill> deck;
@@ -27,6 +31,10 @@ public class Inventory {
         ownedSkills.add(s);
     }
 
+    /**
+     * A method to add a skill to the deck
+     * @param s the skill to be added.
+     */
     public void addDeck(Skill s){
         if(deck.size() <= 30){
             if (ownedSkills.contains(s)){
@@ -36,12 +44,19 @@ public class Inventory {
         }else System.out.println("Your deck is already at the maximum size");
     }
 
+    /**
+     * Aa method to remove an instance of a skill from the deck.
+     * @param s the skill to be removed.
+     */
     public void removeDeck(Skill s){
         if (deck.remove(s)){
             System.out.println("Removed successfully");
         }else System.out.println("None of this skill are in your deck");
     }
 
+    /**
+     * A method to effectively clone the deck.
+     */
     public void makeCurrentDeck(){
         Random random = new Random();
         currentDeck = new LinkedList<>();
@@ -51,12 +66,19 @@ public class Inventory {
         }
     }
 
+    /**
+     * A method to move skills from current deck to the hand
+     * @param size how many skills to move.
+     */
     public void makeHand(int size){
         for (int i = 0; i < size; i++) {
             hand.add(currentDeck.pollFirst());
         }
     }
 
+    /**
+     * A method to move all remining skills from the hand back into the current deck
+     */
     public void returnHand(){
         currentDeck.addAll(hand);
         hand.clear();

@@ -6,6 +6,7 @@ import thoseBoringClassesThatExistJustToStoreThings.Location;
 import thoseBoringClassesThatExistJustToStoreThings.Skill;
 
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class GameData {
     public static GameData loadGameDataFromResources(String resourcePath) {
         Gson gson = new Gson();
 
-        try (Reader reader = new FileReader(resourcePath)) {
+        try (Reader reader = new InputStreamReader(GameData.class.getResourceAsStream(resourcePath))) {
 
             return gson.fromJson(reader, GameData.class);
 

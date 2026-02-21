@@ -2,6 +2,10 @@ package thoseBoringClassesThatExistJustToStoreThings;
 
 import java.util.Objects;
 
+/**
+ * A skill to store and represent a skill.
+ * @author Patrik Novotný
+ */
 public class Skill implements Cloneable{
     private String id;
     private String name;

@@ -3,7 +3,7 @@
    {
       "id": 0,
       "name": "Tutorial///First",
-      "dialogueFileBefore": "resources/dialogues/dialogue1Before.txt",
+      "dialogueFileBefore": "/dialogues/dialogue1Before.txt",
       "dialogueFileAfter": "",
       "enemies": ["e_dummy","e_dummy"],
       "loot": []
